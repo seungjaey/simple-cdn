@@ -81,7 +81,6 @@ const Home: NextPage = () => {
                 />
               ))
             }
-
           </AccordionPanel>
         </AccordionItem>
       </Accordion>
