@@ -67,36 +67,12 @@ export default async function handler(
     return handleError(res, 404, `IMAGE_NOT_SUPPORT : ${path} ${contentType}`)
   }
 
-  const originalFileExtension = mime.extension(contentType)
-
   const sharpInstance = await sharp(imageFile)
+    .resize(200)
+    .toFormat('webp')
+    .toBuffer()
 
-  if (
-    checkEmptyString(format)
-    || !checkValidFormat(format)
-  ) {
-    return handleError(res, 500, 'FORMAT NOT SUPPORTED')
-  } else {
-    sharpInstance.toFormat(format as keyof FormatEnum)
-  }
-
-  const [pWidth, pHeight] = [parseInt(width), parseInt(height)]
-  if (
-    isNaN(pWidth)
-    || isNaN(pHeight)
-    || pWidth === 0
-    || pHeight === 0
-  ) {
-    return handleError(res, 500, 'INVALID_RE_SIZE_OPTIONS')
-  } else {
-    sharpInstance.resize(pWidth, pHeight)
-  }
-
-  const metaData = await sharpInstance.metadata()
-
-
-  res.setHeader('Content-Type', mime.contentType(metaData.format as string) as string)
+  res.setHeader('Content-Type', 'image/webp')
   res.send(sharpInstance)
   res.status(200)
-  // res.status(200).json({ name: 'John Doe' })
 }
