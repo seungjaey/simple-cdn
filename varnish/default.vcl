@@ -1,22 +1,42 @@
-# specify the VCL syntax version to use
 vcl 4.1;
 
-# import vmod_dynamic for better backend name resolution
-import dynamic;
-
-# we won't use any static backend, but Varnish still need a default one
-backend default none;
-
-# set up a dynamic director
-# for more info, see https://github.com/nigoroll/libvmod-dynamic/blob/master/src/vmod_dynamic.vcc
-sub vcl_init {
-        new d = dynamic.director(port = "80");
+backend default {
+    .host = "simple-cdn";
+    .port = "3000";
+    .connect_timeout = 10s;
+    .first_byte_timeout = 15s;
+    .between_bytes_timeout = 60s;
+    .max_connections = 800;
 }
 
 sub vcl_recv {
-	# force the host header to match the backend (not all backends need it,
-	# but example.com does)
-	set req.http.host = "localhost";
-	# set the backend
-	set req.backend_hint = d.backend("localhost");
+    unset req.http.cookie;
+}
+sub vcl_backend_response{
+	# Set 2min cache if unset
+	if (beresp.ttl <= 0s) {
+    set beresp.ttl = 120s; # Important, you shouldn't rely on this, SET YOUR HEADERS in the backend
+    set beresp.uncacheable = false;
+    return (deliver);
+	 }
+	return (deliver);
+}
+
+sub vcl_backend_response {
+  # Happens after we have read the response headers from the backend.
+  #
+  # Here you clean the response headers, removing silly Set-Cookie headers
+  # and other mistakes your backend does.
+}
+
+sub vcl_deliver {
+  # Happens when we have all the pieces we need, and are about to send the
+  # response to the client.
+  #
+  # You can do accounting or modifying the final object here.
+	if (obj.hits > 0) {
+    set resp.http.X-Cache = "HIT";
+  } else {
+    set resp.http.X-Cache = "MISS";
+  }
 }

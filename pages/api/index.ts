@@ -2,20 +2,12 @@
 import { resolve } from 'path'
 import { readFile } from 'fs/promises'
 import mime from 'mime-types'
-import sharp, {FormatEnum} from 'sharp'
+import sharp from 'sharp'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 const STATIC_FILE_DIR_NAME = 'public'
 
 type QueryParamKeyType = 'path' | 'format' | 'width' | 'height' | string
-
-const checkEmptyString = (input: string) => input === ''
-const checkValidFormat = (format: string) => format === 'png'
-    || format === 'jpeg'
-    || format === 'jpg'
-    || format === 'heic'
-    || format === 'webp'
-    || format === 'avif'
 
 const getDefaultQueryParam = (param: string | string[] | undefined): string => {
   if (!param) {
@@ -47,10 +39,11 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const { query, method } = req
+  console.log(`hit : ${method} : ${query.toString()}`);
   if (method !== 'GET') {
     return handleError(res, 404, 'NOT_SUPPORTED')
   }
-  const { path, width, height, format } = getQueryParams(query)
+  const { path } = getQueryParams(query)
 
   const targetImageFilePath = resolve(STATIC_FILE_DIR_NAME, path)
   if (!targetImageFilePath) {
