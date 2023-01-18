@@ -4,6 +4,7 @@ specifiers:
   '@chakra-ui/react': ^2.3.4
   '@emotion/react': ^11.10.4
   '@emotion/styled': ^11.10.4
+  '@slack/webhook': ^6.1.0
   '@types/mime-types': ^2.1.1
   '@types/node': 18.7.23
   '@types/react': 18.0.21
@@ -23,6 +24,7 @@ dependencies:
   '@chakra-ui/react': 2.3.4_l4bygxe3cznbrojleqjhzaggci
   '@emotion/react': 11.10.4_bjroym7kxlcs2vvwnej4p3gzwu
   '@emotion/styled': 11.10.4_ogudqqhlstsi7uge4lir7ff3ty
+  '@slack/webhook': 6.1.0
   framer-motion: 7.5.1_biqbaboplfbrettd7655fr4n2y
   mime-types: 2.1.35
   next: 12.3.1_6tziyx3dehkoeijunclpkpolha
@@ -1689,6 +1691,22 @@ packages:
     resolution: {integrity: sha512-sXo/qW2/pAcmT43VoRKOJbDOfV3cYpq3szSVfIThQXNt+E4DfKj361vaAt3c88U5tPUxzEswam7GW48PJqtKAg==}
     dev: true
 
+  /@slack/types/1.10.0:
+    resolution: {integrity: sha512-tA7GG7Tj479vojfV3AoxbckalA48aK6giGjNtgH6ihpLwTyHE3fIgRrvt8TWfLwW8X8dyu7vgmAsGLRG7hWWOg==}
+    engines: {node: '>= 8.9.0', npm: '>= 5.5.1'}
+    dev: false
+
+  /@slack/webhook/6.1.0:
+    resolution: {integrity: sha512-7AYNISyAjn/lA/VDwZ307K5ft5DojXgBd3DRrGoFN8XxIwIyRALdFhxBiMgAqeJH8eWoktvNwLK24R9hREEqpA==}
+    engines: {node: '>= 12.13.0', npm: '>= 6.12.0'}
+    dependencies:
+      '@slack/types': 1.10.0
+      '@types/node': 18.7.23
+      axios: 0.21.4
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
   /@swc/helpers/0.4.11:
     resolution: {integrity: sha512-rEUrBSGIoSFuYxwBYtlUFMlE2CwGhmW+w9355/5oduSw8e5h2+Tj4UrAGNNgP9915++wj5vkQo0UuOBqOAq4nw==}
     dependencies:
@@ -1715,7 +1733,6 @@ packages:
 
   /@types/node/18.7.23:
     resolution: {integrity: sha512-DWNcCHolDq0ZKGizjx2DZjR/PqsYwAcYUJmfMWqtVU2MBMG5Mo+xFZrhGId5r/O5HOuMPyQEcM6KUBp5lBZZBg==}
-    dev: true
 
   /@types/parse-json/4.0.0:
     resolution: {integrity: sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==}
@@ -1929,6 +1946,14 @@ packages:
     resolution: {integrity: sha512-32+ub6kkdhhWick/UjvEwRchgoetXqTK14INLqbGm5U2TzBkBNF3nQtLYm8ovxSkQWArjEQvftCKryjZaATu3w==}
     engines: {node: '>=4'}
     dev: true
+
+  /axios/0.21.4:
+    resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
+    dependencies:
+      follow-redirects: 1.15.2
+    transitivePeerDependencies:
+      - debug
+    dev: false
 
   /axobject-query/2.2.0:
     resolution: {integrity: sha512-Td525n+iPOOyUQIeBfcASuG6uJsDOITl7Mds5gFyerkWiX7qhUTdYUBlSgNMyVqtSJqwpt1kXGLdUt6SykLMRA==}
@@ -2635,6 +2660,16 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       tslib: 2.4.0
+    dev: false
+
+  /follow-redirects/1.15.2:
+    resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
     dev: false
 
   /framer-motion/7.5.1_biqbaboplfbrettd7655fr4n2y:

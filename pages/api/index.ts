@@ -4,6 +4,9 @@ import { readFile } from 'fs/promises'
 import mime from 'mime-types'
 import sharp from 'sharp'
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { IncomingWebhook } from '@slack/webhook';
+
+const webhook = new IncomingWebhook(process.env.SLACK_WEB_HOOK_URL);
 
 const STATIC_FILE_DIR_NAME = 'public'
 
@@ -40,6 +43,11 @@ export default async function handler(
 ) {
   const { query, method } = req
   console.log(`hit : ${method} : ${query.toString()}`);
+
+  await webhook.send({
+    text: 'request has been hit'
+  })
+
   if (method !== 'GET') {
     return handleError(res, 404, 'NOT_SUPPORTED')
   }
